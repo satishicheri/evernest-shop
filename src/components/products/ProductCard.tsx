@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ShoppingCart, Edit, Trash2, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
@@ -16,6 +17,7 @@ interface ProductCardProps {
 
 export const ProductCard = ({ product, onEdit, onDelete }: ProductCardProps) => {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const queryClient = useQueryClient();
 
@@ -71,7 +73,10 @@ export const ProductCard = ({ product, onEdit, onDelete }: ProductCardProps) => 
   return (
     <Card className="group hover:shadow-card-custom transition-all duration-300 hover:-translate-y-1 bg-gradient-card border-0">
       <CardHeader className="p-0">
-        <div className="aspect-square overflow-hidden rounded-t-lg">
+        <div 
+          className="aspect-square overflow-hidden rounded-t-lg cursor-pointer"
+          onClick={() => navigate(`/product/${product._id}`)}
+        >
           <img
             src={product.image}
             alt={product.productname}
